@@ -48,6 +48,10 @@ query bank (balance, age, account_number)
   return 1;
 ```
 
+## See it in action
+
+![image](https://github.com/metadave/eql/blob/master/eql.gif?raw=true)
+
 ## Building + Running
 
 ```
@@ -59,20 +63,21 @@ mvn clean package
 
 - How is it pronounced?
     - "equal"
-    
+
 - Why didn't you implement SQL?
     - Elasticsearch isn't a SQL database.
-    
+
 - Is EQL usable in production?
     - ***NO NO NO***
     - It's just an idea I had over the weekend.
-    
+
 - Are you going to finish this?
     - if theres any interest in it.
-    
+
 - Can I contribute?
     - not yet, the code is messy and I need to add tests and stabilize the language.
-    
+
+
 ---
 
 #License
