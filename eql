@@ -1,0 +1,2 @@
+#!/bin/sh
+java -classpath ./target/eql-0.1-jar-with-dependencies.jar com.metadave.eql.EQLConsole $@

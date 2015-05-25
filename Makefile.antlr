@@ -1,0 +1,2 @@
+antlr:
+	antlr4 -o ./ -listener -no-visitor -package com.metadave.eql.parser ./src/main/java/com/metadave/eql/parser/EQL.g4

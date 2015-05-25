@@ -1,0 +1,30 @@
+connect elasticsearch localhost:9300;
+
+query bank;
+
+query bank return 1;
+
+query bank return 10 from 5;
+
+query bank return 3 sort on balance asc;
+
+query bank return 3 sort on balance asc, lastname desc;
+
+query bank
+    filter balance = 1110
+    return 1;
+
+query bank
+  filter balance = 1110
+    and age = 27
+  return 1;
+
+query bank (balance, age, account_number)
+  filter
+    balance = 1110
+    and (age = 31 or account_number=953)
+  return 1;
+
+query bank (account_number, balance);
+
+query bank (account_number, balance) return 1;
