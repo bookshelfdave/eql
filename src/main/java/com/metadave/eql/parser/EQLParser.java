@@ -17,31 +17,35 @@ public class EQLParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, SORT=5, CONNECT=6, QUERY=7, ALL=8, RETURNKW=9, 
-		FROM=10, ON=11, TO=12, AND=13, OR=14, NOT=15, AT=16, DOLLAR=17, SPLAT=18, 
-		COMMA=19, LSQUARE=20, RSQUARE=21, LPAREN=22, RPAREN=23, EQUALS=24, DOT=25, 
-		SEMI=26, ID=27, INT=28, FLOAT=29, STRING=30, DATA_CONTENT=31, LINE_COMMENT=32, 
-		COMMENT=33, WS=34;
+		T__0=1, T__1=2, T__2=3, T__3=4, INDEX=5, SORT=6, CONNECT=7, QUERY=8, ALL=9, 
+		GET=10, RETURNKW=11, FROM=12, WITH=13, ON=14, TO=15, AND=16, OR=17, NOT=18, 
+		AT=19, DOLLAR=20, SPLAT=21, COMMA=22, LSQUARE=23, RSQUARE=24, LPAREN=25, 
+		RPAREN=26, EQUALS=27, DOT=28, SEMI=29, ID=30, INT=31, FLOAT=32, DOUBLE_STRING=33, 
+		SINGLE_STRING=34, DATA_CONTENT=35, LINE_COMMENT=36, COMMENT=37, WS=38, 
+		WSCHARS=39;
 	public static final int
-		RULE_stmts = 0, RULE_connect_stmt = 1, RULE_hostport = 2, RULE_query_stmt = 3, 
-		RULE_field_list = 4, RULE_filter_stmt = 5, RULE_filter_pred = 6, RULE_filter_rest = 7, 
-		RULE_return_stmt = 8, RULE_sort_stmt = 9, RULE_ascdesc = 10;
+		RULE_stmts = 0, RULE_connect_stmt = 1, RULE_hostport = 2, RULE_index_stmt = 3, 
+		RULE_get_stmt = 4, RULE_query_stmt = 5, RULE_field_list = 6, RULE_filter_stmt = 7, 
+		RULE_filter_pred = 8, RULE_filter_rest = 9, RULE_return_stmt = 10, RULE_sort_stmt = 11, 
+		RULE_ascdesc = 12, RULE_string_value = 13;
 	public static final String[] ruleNames = {
-		"stmts", "connect_stmt", "hostport", "query_stmt", "field_list", "filter_stmt", 
-		"filter_pred", "filter_rest", "return_stmt", "sort_stmt", "ascdesc"
+		"stmts", "connect_stmt", "hostport", "index_stmt", "get_stmt", "query_stmt", 
+		"field_list", "filter_stmt", "filter_pred", "filter_rest", "return_stmt", 
+		"sort_stmt", "ascdesc", "string_value"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "':'", "'filter'", "'asc'", "'desc'", "'sort'", "'connect'", "'query'", 
-		"'all'", "'return'", "'from'", "'on'", "'to'", "'and'", "'or'", "'not'", 
-		"'@'", "'$'", "'*'", "','", "'['", "']'", "'('", "')'", "'='", "'.'", 
-		"';'"
+		null, "':'", "'filter'", "'asc'", "'desc'", "'index'", "'sort'", "'connect'", 
+		"'query'", "'all'", "'get'", "'return'", "'from'", "'with'", "'on'", "'to'", 
+		"'and'", "'or'", "'not'", "'@'", "'$'", "'*'", "','", "'['", "']'", "'('", 
+		"')'", "'='", "'.'", "';'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, "SORT", "CONNECT", "QUERY", "ALL", "RETURNKW", 
-		"FROM", "ON", "TO", "AND", "OR", "NOT", "AT", "DOLLAR", "SPLAT", "COMMA", 
-		"LSQUARE", "RSQUARE", "LPAREN", "RPAREN", "EQUALS", "DOT", "SEMI", "ID", 
-		"INT", "FLOAT", "STRING", "DATA_CONTENT", "LINE_COMMENT", "COMMENT", "WS"
+		null, null, null, null, null, "INDEX", "SORT", "CONNECT", "QUERY", "ALL", 
+		"GET", "RETURNKW", "FROM", "WITH", "ON", "TO", "AND", "OR", "NOT", "AT", 
+		"DOLLAR", "SPLAT", "COMMA", "LSQUARE", "RSQUARE", "LPAREN", "RPAREN", 
+		"EQUALS", "DOT", "SEMI", "ID", "INT", "FLOAT", "DOUBLE_STRING", "SINGLE_STRING", 
+		"DATA_CONTENT", "LINE_COMMENT", "COMMENT", "WS", "WSCHARS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -102,6 +106,18 @@ public class EQLParser extends Parser {
 		public Query_stmtContext query_stmt(int i) {
 			return getRuleContext(Query_stmtContext.class,i);
 		}
+		public List<Index_stmtContext> index_stmt() {
+			return getRuleContexts(Index_stmtContext.class);
+		}
+		public Index_stmtContext index_stmt(int i) {
+			return getRuleContext(Index_stmtContext.class,i);
+		}
+		public List<Get_stmtContext> get_stmt() {
+			return getRuleContexts(Get_stmtContext.class);
+		}
+		public Get_stmtContext get_stmt(int i) {
+			return getRuleContext(Get_stmtContext.class,i);
+		}
 		public StmtsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -123,26 +139,45 @@ public class EQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23);
+			setState(29);
 			_la = _input.LA(1);
 			if (_la==CONNECT) {
 				{
-				setState(22);
+				setState(28);
 				connect_stmt();
 				}
 			}
 
-			setState(28);
+			setState(36);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==QUERY) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INDEX) | (1L << QUERY) | (1L << GET))) != 0)) {
 				{
-				{
-				setState(25);
-				query_stmt();
+				setState(34);
+				switch (_input.LA(1)) {
+				case QUERY:
+					{
+					setState(31);
+					query_stmt();
+					}
+					break;
+				case INDEX:
+					{
+					setState(32);
+					index_stmt();
+					}
+					break;
+				case GET:
+					{
+					setState(33);
+					get_stmt();
+					}
+					break;
+				default:
+					throw new NoViableAltException(this);
 				}
 				}
-				setState(30);
+				setState(38);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -197,38 +232,38 @@ public class EQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(39);
 			match(CONNECT);
-			setState(33);
-			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			setState(41);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
-				setState(32);
+				setState(40);
 				((Connect_stmtContext)_localctx).clusterName = match(ID);
 				}
 				break;
 			}
-			setState(35);
+			setState(43);
 			((Connect_stmtContext)_localctx).hostport = hostport();
 			((Connect_stmtContext)_localctx).hps.add(((Connect_stmtContext)_localctx).hostport);
-			setState(40);
+			setState(48);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(36);
+				setState(44);
 				match(COMMA);
-				setState(37);
+				setState(45);
 				((Connect_stmtContext)_localctx).hostport = hostport();
 				((Connect_stmtContext)_localctx).hps.add(((Connect_stmtContext)_localctx).hostport);
 				}
 				}
-				setState(42);
+				setState(50);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(43);
+			setState(51);
 			match(SEMI);
 			}
 		}
@@ -268,12 +303,136 @@ public class EQLParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(45);
+			setState(53);
 			((HostportContext)_localctx).host = match(ID);
-			setState(46);
+			setState(54);
 			match(T__0);
-			setState(47);
+			setState(55);
 			((HostportContext)_localctx).port = match(INT);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Index_stmtContext extends ParserRuleContext {
+		public Token idx;
+		public Token itype;
+		public String_valueContext content;
+		public TerminalNode INDEX() { return getToken(EQLParser.INDEX, 0); }
+		public TerminalNode WITH() { return getToken(EQLParser.WITH, 0); }
+		public TerminalNode EQUALS() { return getToken(EQLParser.EQUALS, 0); }
+		public TerminalNode SEMI() { return getToken(EQLParser.SEMI, 0); }
+		public List<TerminalNode> ID() { return getTokens(EQLParser.ID); }
+		public TerminalNode ID(int i) {
+			return getToken(EQLParser.ID, i);
+		}
+		public String_valueContext string_value() {
+			return getRuleContext(String_valueContext.class,0);
+		}
+		public Index_stmtContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_index_stmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).enterIndex_stmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).exitIndex_stmt(this);
+		}
+	}
+
+	public final Index_stmtContext index_stmt() throws RecognitionException {
+		Index_stmtContext _localctx = new Index_stmtContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_index_stmt);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(57);
+			match(INDEX);
+			setState(58);
+			((Index_stmtContext)_localctx).idx = match(ID);
+			setState(59);
+			match(WITH);
+			setState(60);
+			((Index_stmtContext)_localctx).itype = match(ID);
+			setState(61);
+			match(EQUALS);
+			setState(62);
+			((Index_stmtContext)_localctx).content = string_value();
+			setState(63);
+			match(SEMI);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Get_stmtContext extends ParserRuleContext {
+		public Token idx;
+		public Token itype;
+		public String_valueContext content;
+		public TerminalNode GET() { return getToken(EQLParser.GET, 0); }
+		public TerminalNode WITH() { return getToken(EQLParser.WITH, 0); }
+		public TerminalNode EQUALS() { return getToken(EQLParser.EQUALS, 0); }
+		public TerminalNode SEMI() { return getToken(EQLParser.SEMI, 0); }
+		public List<TerminalNode> ID() { return getTokens(EQLParser.ID); }
+		public TerminalNode ID(int i) {
+			return getToken(EQLParser.ID, i);
+		}
+		public String_valueContext string_value() {
+			return getRuleContext(String_valueContext.class,0);
+		}
+		public Get_stmtContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_get_stmt; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).enterGet_stmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).exitGet_stmt(this);
+		}
+	}
+
+	public final Get_stmtContext get_stmt() throws RecognitionException {
+		Get_stmtContext _localctx = new Get_stmtContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_get_stmt);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(65);
+			match(GET);
+			setState(66);
+			((Get_stmtContext)_localctx).idx = match(ID);
+			setState(67);
+			match(WITH);
+			setState(68);
+			((Get_stmtContext)_localctx).itype = match(ID);
+			setState(69);
+			match(EQUALS);
+			setState(70);
+			((Get_stmtContext)_localctx).content = string_value();
+			setState(71);
+			match(SEMI);
 			}
 		}
 		catch (RecognitionException re) {
@@ -320,52 +479,52 @@ public class EQLParser extends Parser {
 
 	public final Query_stmtContext query_stmt() throws RecognitionException {
 		Query_stmtContext _localctx = new Query_stmtContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_query_stmt);
+		enterRule(_localctx, 10, RULE_query_stmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(49);
+			setState(73);
 			match(QUERY);
-			setState(50);
+			setState(74);
 			((Query_stmtContext)_localctx).key = match(ID);
-			setState(52);
+			setState(76);
 			_la = _input.LA(1);
 			if (_la==LPAREN) {
 				{
-				setState(51);
+				setState(75);
 				field_list();
 				}
 			}
 
-			setState(55);
+			setState(79);
 			_la = _input.LA(1);
 			if (_la==T__1) {
 				{
-				setState(54);
+				setState(78);
 				filter_stmt();
 				}
 			}
 
-			setState(58);
+			setState(82);
 			_la = _input.LA(1);
 			if (_la==RETURNKW) {
 				{
-				setState(57);
+				setState(81);
 				return_stmt();
 				}
 			}
 
-			setState(61);
+			setState(85);
 			_la = _input.LA(1);
 			if (_la==SORT) {
 				{
-				setState(60);
+				setState(84);
 				sort_stmt();
 				}
 			}
 
-			setState(63);
+			setState(87);
 			match(SEMI);
 			}
 		}
@@ -409,34 +568,34 @@ public class EQLParser extends Parser {
 
 	public final Field_listContext field_list() throws RecognitionException {
 		Field_listContext _localctx = new Field_listContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_field_list);
+		enterRule(_localctx, 12, RULE_field_list);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(89);
 			match(LPAREN);
-			setState(66);
+			setState(90);
 			((Field_listContext)_localctx).ID = match(ID);
 			((Field_listContext)_localctx).fields.add(((Field_listContext)_localctx).ID);
-			setState(71);
+			setState(95);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(67);
+				setState(91);
 				match(COMMA);
-				setState(68);
+				setState(92);
 				((Field_listContext)_localctx).ID = match(ID);
 				((Field_listContext)_localctx).fields.add(((Field_listContext)_localctx).ID);
 				}
 				}
-				setState(73);
+				setState(97);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(74);
+			setState(98);
 			match(RPAREN);
 			}
 		}
@@ -471,13 +630,13 @@ public class EQLParser extends Parser {
 
 	public final Filter_stmtContext filter_stmt() throws RecognitionException {
 		Filter_stmtContext _localctx = new Filter_stmtContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_filter_stmt);
+		enterRule(_localctx, 14, RULE_filter_stmt);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76);
+			setState(100);
 			match(T__1);
-			setState(77);
+			setState(101);
 			filter_pred();
 			}
 		}
@@ -495,11 +654,13 @@ public class EQLParser extends Parser {
 	public static class Filter_predContext extends ParserRuleContext {
 		public Token name;
 		public Token intval;
-		public Token stringval;
+		public String_valueContext stringval;
 		public Filter_predContext childpred;
 		public TerminalNode ID() { return getToken(EQLParser.ID, 0); }
 		public TerminalNode INT() { return getToken(EQLParser.INT, 0); }
-		public TerminalNode STRING() { return getToken(EQLParser.STRING, 0); }
+		public String_valueContext string_value() {
+			return getRuleContext(String_valueContext.class,0);
+		}
 		public Filter_restContext filter_rest() {
 			return getRuleContext(Filter_restContext.class,0);
 		}
@@ -524,39 +685,41 @@ public class EQLParser extends Parser {
 
 	public final Filter_predContext filter_pred() throws RecognitionException {
 		Filter_predContext _localctx = new Filter_predContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_filter_pred);
+		enterRule(_localctx, 16, RULE_filter_pred);
 		try {
-			setState(92);
+			setState(116);
 			switch (_input.LA(1)) {
 			case ID:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(79);
+				setState(103);
 				((Filter_predContext)_localctx).name = match(ID);
-				setState(80);
+				setState(104);
 				match(EQUALS);
-				setState(83);
+				setState(107);
 				switch (_input.LA(1)) {
 				case INT:
 					{
-					setState(81);
+					setState(105);
 					((Filter_predContext)_localctx).intval = match(INT);
 					}
 					break;
-				case STRING:
+				case DOUBLE_STRING:
+				case SINGLE_STRING:
+				case DATA_CONTENT:
 					{
-					setState(82);
-					((Filter_predContext)_localctx).stringval = match(STRING);
+					setState(106);
+					((Filter_predContext)_localctx).stringval = string_value();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(86);
-				switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+				setState(110);
+				switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 				case 1:
 					{
-					setState(85);
+					setState(109);
 					filter_rest();
 					}
 					break;
@@ -566,11 +729,11 @@ public class EQLParser extends Parser {
 			case LPAREN:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(88);
+				setState(112);
 				match(LPAREN);
-				setState(89);
+				setState(113);
 				((Filter_predContext)_localctx).childpred = filter_pred();
-				setState(90);
+				setState(114);
 				match(RPAREN);
 				}
 				break;
@@ -623,15 +786,15 @@ public class EQLParser extends Parser {
 
 	public final Filter_restContext filter_rest() throws RecognitionException {
 		Filter_restContext _localctx = new Filter_restContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_filter_rest);
+		enterRule(_localctx, 18, RULE_filter_rest);
 		try {
 			int _alt;
-			setState(106);
+			setState(130);
 			switch (_input.LA(1)) {
 			case AND:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(96); 
+				setState(120); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -639,9 +802,9 @@ public class EQLParser extends Parser {
 					case 1:
 						{
 						{
-						setState(94);
+						setState(118);
 						match(AND);
-						setState(95);
+						setState(119);
 						((Filter_restContext)_localctx).filter_pred = filter_pred();
 						((Filter_restContext)_localctx).ands.add(((Filter_restContext)_localctx).filter_pred);
 						}
@@ -650,16 +813,16 @@ public class EQLParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(98); 
+					setState(122); 
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,12,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
 			case OR:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(102); 
+				setState(126); 
 				_errHandler.sync(this);
 				_alt = 1;
 				do {
@@ -667,9 +830,9 @@ public class EQLParser extends Parser {
 					case 1:
 						{
 						{
-						setState(100);
+						setState(124);
 						match(OR);
-						setState(101);
+						setState(125);
 						((Filter_restContext)_localctx).filter_pred = filter_pred();
 						((Filter_restContext)_localctx).ors.add(((Filter_restContext)_localctx).filter_pred);
 						}
@@ -678,9 +841,9 @@ public class EQLParser extends Parser {
 					default:
 						throw new NoViableAltException(this);
 					}
-					setState(104); 
+					setState(128); 
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,13,_ctx);
+					_alt = getInterpreter().adaptivePredict(_input,14,_ctx);
 				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 				}
 				break;
@@ -724,29 +887,29 @@ public class EQLParser extends Parser {
 
 	public final Return_stmtContext return_stmt() throws RecognitionException {
 		Return_stmtContext _localctx = new Return_stmtContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_return_stmt);
+		enterRule(_localctx, 20, RULE_return_stmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(132);
 			match(RETURNKW);
-			setState(110);
+			setState(134);
 			_la = _input.LA(1);
 			if (_la==INT) {
 				{
-				setState(109);
+				setState(133);
 				((Return_stmtContext)_localctx).size = match(INT);
 				}
 			}
 
-			setState(114);
+			setState(138);
 			_la = _input.LA(1);
 			if (_la==FROM) {
 				{
-				setState(112);
+				setState(136);
 				match(FROM);
-				setState(113);
+				setState(137);
 				((Return_stmtContext)_localctx).lower = match(INT);
 				}
 			}
@@ -801,38 +964,38 @@ public class EQLParser extends Parser {
 
 	public final Sort_stmtContext sort_stmt() throws RecognitionException {
 		Sort_stmtContext _localctx = new Sort_stmtContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_sort_stmt);
+		enterRule(_localctx, 22, RULE_sort_stmt);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116);
+			setState(140);
 			match(SORT);
-			setState(117);
+			setState(141);
 			match(ON);
-			setState(118);
+			setState(142);
 			((Sort_stmtContext)_localctx).ID = match(ID);
 			((Sort_stmtContext)_localctx).keys.add(((Sort_stmtContext)_localctx).ID);
-			setState(119);
+			setState(143);
 			((Sort_stmtContext)_localctx).ascdesc = ascdesc();
 			((Sort_stmtContext)_localctx).sorts.add(((Sort_stmtContext)_localctx).ascdesc);
-			setState(125);
+			setState(149);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==COMMA) {
 				{
 				{
-				setState(120);
+				setState(144);
 				match(COMMA);
-				setState(121);
+				setState(145);
 				((Sort_stmtContext)_localctx).ID = match(ID);
 				((Sort_stmtContext)_localctx).keys.add(((Sort_stmtContext)_localctx).ID);
-				setState(122);
+				setState(146);
 				((Sort_stmtContext)_localctx).ascdesc = ascdesc();
 				((Sort_stmtContext)_localctx).sorts.add(((Sort_stmtContext)_localctx).ascdesc);
 				}
 				}
-				setState(127);
+				setState(151);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -868,21 +1031,21 @@ public class EQLParser extends Parser {
 
 	public final AscdescContext ascdesc() throws RecognitionException {
 		AscdescContext _localctx = new AscdescContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_ascdesc);
+		enterRule(_localctx, 24, RULE_ascdesc);
 		try {
-			setState(130);
+			setState(154);
 			switch (_input.LA(1)) {
 			case T__2:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(128);
+				setState(152);
 				((AscdescContext)_localctx).asc = match(T__2);
 				}
 				break;
 			case T__3:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(129);
+				setState(153);
 				((AscdescContext)_localctx).desc = match(T__3);
 				}
 				break;
@@ -901,41 +1064,96 @@ public class EQLParser extends Parser {
 		return _localctx;
 	}
 
+	public static class String_valueContext extends ParserRuleContext {
+		public TerminalNode SINGLE_STRING() { return getToken(EQLParser.SINGLE_STRING, 0); }
+		public TerminalNode DOUBLE_STRING() { return getToken(EQLParser.DOUBLE_STRING, 0); }
+		public TerminalNode DATA_CONTENT() { return getToken(EQLParser.DATA_CONTENT, 0); }
+		public String_valueContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_string_value; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).enterString_value(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof EQLListener ) ((EQLListener)listener).exitString_value(this);
+		}
+	}
+
+	public final String_valueContext string_value() throws RecognitionException {
+		String_valueContext _localctx = new String_valueContext(_ctx, getState());
+		enterRule(_localctx, 26, RULE_string_value);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(156);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << DOUBLE_STRING) | (1L << SINGLE_STRING) | (1L << DATA_CONTENT))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			} else {
+				consume();
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$\u0087\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u00a1\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
-		"\13\4\f\t\f\3\2\5\2\32\n\2\3\2\7\2\35\n\2\f\2\16\2 \13\2\3\3\3\3\5\3$"+
-		"\n\3\3\3\3\3\3\3\7\3)\n\3\f\3\16\3,\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3"+
-		"\5\3\5\5\5\67\n\5\3\5\5\5:\n\5\3\5\5\5=\n\5\3\5\5\5@\n\5\3\5\3\5\3\6\3"+
-		"\6\3\6\3\6\7\6H\n\6\f\6\16\6K\13\6\3\6\3\6\3\7\3\7\3\7\3\b\3\b\3\b\3\b"+
-		"\5\bV\n\b\3\b\5\bY\n\b\3\b\3\b\3\b\3\b\5\b_\n\b\3\t\3\t\6\tc\n\t\r\t\16"+
-		"\td\3\t\3\t\6\ti\n\t\r\t\16\tj\5\tm\n\t\3\n\3\n\5\nq\n\n\3\n\3\n\5\nu"+
-		"\n\n\3\13\3\13\3\13\3\13\3\13\3\13\3\13\7\13~\n\13\f\13\16\13\u0081\13"+
-		"\13\3\f\3\f\5\f\u0085\n\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\2\u008e"+
-		"\2\31\3\2\2\2\4!\3\2\2\2\6/\3\2\2\2\b\63\3\2\2\2\nC\3\2\2\2\fN\3\2\2\2"+
-		"\16^\3\2\2\2\20l\3\2\2\2\22n\3\2\2\2\24v\3\2\2\2\26\u0084\3\2\2\2\30\32"+
-		"\5\4\3\2\31\30\3\2\2\2\31\32\3\2\2\2\32\36\3\2\2\2\33\35\5\b\5\2\34\33"+
-		"\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\3\3\2\2\2 \36\3\2"+
-		"\2\2!#\7\b\2\2\"$\7\35\2\2#\"\3\2\2\2#$\3\2\2\2$%\3\2\2\2%*\5\6\4\2&\'"+
-		"\7\25\2\2\')\5\6\4\2(&\3\2\2\2),\3\2\2\2*(\3\2\2\2*+\3\2\2\2+-\3\2\2\2"+
-		",*\3\2\2\2-.\7\34\2\2.\5\3\2\2\2/\60\7\35\2\2\60\61\7\3\2\2\61\62\7\36"+
-		"\2\2\62\7\3\2\2\2\63\64\7\t\2\2\64\66\7\35\2\2\65\67\5\n\6\2\66\65\3\2"+
-		"\2\2\66\67\3\2\2\2\679\3\2\2\28:\5\f\7\298\3\2\2\29:\3\2\2\2:<\3\2\2\2"+
-		";=\5\22\n\2<;\3\2\2\2<=\3\2\2\2=?\3\2\2\2>@\5\24\13\2?>\3\2\2\2?@\3\2"+
-		"\2\2@A\3\2\2\2AB\7\34\2\2B\t\3\2\2\2CD\7\30\2\2DI\7\35\2\2EF\7\25\2\2"+
-		"FH\7\35\2\2GE\3\2\2\2HK\3\2\2\2IG\3\2\2\2IJ\3\2\2\2JL\3\2\2\2KI\3\2\2"+
-		"\2LM\7\31\2\2M\13\3\2\2\2NO\7\4\2\2OP\5\16\b\2P\r\3\2\2\2QR\7\35\2\2R"+
-		"U\7\32\2\2SV\7\36\2\2TV\7 \2\2US\3\2\2\2UT\3\2\2\2VX\3\2\2\2WY\5\20\t"+
-		"\2XW\3\2\2\2XY\3\2\2\2Y_\3\2\2\2Z[\7\30\2\2[\\\5\16\b\2\\]\7\31\2\2]_"+
-		"\3\2\2\2^Q\3\2\2\2^Z\3\2\2\2_\17\3\2\2\2`a\7\17\2\2ac\5\16\b\2b`\3\2\2"+
-		"\2cd\3\2\2\2db\3\2\2\2de\3\2\2\2em\3\2\2\2fg\7\20\2\2gi\5\16\b\2hf\3\2"+
-		"\2\2ij\3\2\2\2jh\3\2\2\2jk\3\2\2\2km\3\2\2\2lb\3\2\2\2lh\3\2\2\2m\21\3"+
-		"\2\2\2np\7\13\2\2oq\7\36\2\2po\3\2\2\2pq\3\2\2\2qt\3\2\2\2rs\7\f\2\2s"+
-		"u\7\36\2\2tr\3\2\2\2tu\3\2\2\2u\23\3\2\2\2vw\7\7\2\2wx\7\r\2\2xy\7\35"+
-		"\2\2y\177\5\26\f\2z{\7\25\2\2{|\7\35\2\2|~\5\26\f\2}z\3\2\2\2~\u0081\3"+
-		"\2\2\2\177}\3\2\2\2\177\u0080\3\2\2\2\u0080\25\3\2\2\2\u0081\177\3\2\2"+
-		"\2\u0082\u0085\7\5\2\2\u0083\u0085\7\6\2\2\u0084\u0082\3\2\2\2\u0084\u0083"+
-		"\3\2\2\2\u0085\27\3\2\2\2\25\31\36#*\669<?IUX^djlpt\177\u0084";
+		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\3\2\5\2 \n\2\3\2\3\2\3\2\7\2%"+
+		"\n\2\f\2\16\2(\13\2\3\3\3\3\5\3,\n\3\3\3\3\3\3\3\7\3\61\n\3\f\3\16\3\64"+
+		"\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6"+
+		"\3\6\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\5\7O\n\7\3\7\5\7R\n\7\3\7\5\7U\n"+
+		"\7\3\7\5\7X\n\7\3\7\3\7\3\b\3\b\3\b\3\b\7\b`\n\b\f\b\16\bc\13\b\3\b\3"+
+		"\b\3\t\3\t\3\t\3\n\3\n\3\n\3\n\5\nn\n\n\3\n\5\nq\n\n\3\n\3\n\3\n\3\n\5"+
+		"\nw\n\n\3\13\3\13\6\13{\n\13\r\13\16\13|\3\13\3\13\6\13\u0081\n\13\r\13"+
+		"\16\13\u0082\5\13\u0085\n\13\3\f\3\f\5\f\u0089\n\f\3\f\3\f\5\f\u008d\n"+
+		"\f\3\r\3\r\3\r\3\r\3\r\3\r\3\r\7\r\u0096\n\r\f\r\16\r\u0099\13\r\3\16"+
+		"\3\16\5\16\u009d\n\16\3\17\3\17\3\17\2\2\20\2\4\6\b\n\f\16\20\22\24\26"+
+		"\30\32\34\2\3\3\2#%\u00a7\2\37\3\2\2\2\4)\3\2\2\2\6\67\3\2\2\2\b;\3\2"+
+		"\2\2\nC\3\2\2\2\fK\3\2\2\2\16[\3\2\2\2\20f\3\2\2\2\22v\3\2\2\2\24\u0084"+
+		"\3\2\2\2\26\u0086\3\2\2\2\30\u008e\3\2\2\2\32\u009c\3\2\2\2\34\u009e\3"+
+		"\2\2\2\36 \5\4\3\2\37\36\3\2\2\2\37 \3\2\2\2 &\3\2\2\2!%\5\f\7\2\"%\5"+
+		"\b\5\2#%\5\n\6\2$!\3\2\2\2$\"\3\2\2\2$#\3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'"+
+		"\3\2\2\2\'\3\3\2\2\2(&\3\2\2\2)+\7\t\2\2*,\7 \2\2+*\3\2\2\2+,\3\2\2\2"+
+		",-\3\2\2\2-\62\5\6\4\2./\7\30\2\2/\61\5\6\4\2\60.\3\2\2\2\61\64\3\2\2"+
+		"\2\62\60\3\2\2\2\62\63\3\2\2\2\63\65\3\2\2\2\64\62\3\2\2\2\65\66\7\37"+
+		"\2\2\66\5\3\2\2\2\678\7 \2\289\7\3\2\29:\7!\2\2:\7\3\2\2\2;<\7\7\2\2<"+
+		"=\7 \2\2=>\7\17\2\2>?\7 \2\2?@\7\35\2\2@A\5\34\17\2AB\7\37\2\2B\t\3\2"+
+		"\2\2CD\7\f\2\2DE\7 \2\2EF\7\17\2\2FG\7 \2\2GH\7\35\2\2HI\5\34\17\2IJ\7"+
+		"\37\2\2J\13\3\2\2\2KL\7\n\2\2LN\7 \2\2MO\5\16\b\2NM\3\2\2\2NO\3\2\2\2"+
+		"OQ\3\2\2\2PR\5\20\t\2QP\3\2\2\2QR\3\2\2\2RT\3\2\2\2SU\5\26\f\2TS\3\2\2"+
+		"\2TU\3\2\2\2UW\3\2\2\2VX\5\30\r\2WV\3\2\2\2WX\3\2\2\2XY\3\2\2\2YZ\7\37"+
+		"\2\2Z\r\3\2\2\2[\\\7\33\2\2\\a\7 \2\2]^\7\30\2\2^`\7 \2\2_]\3\2\2\2`c"+
+		"\3\2\2\2a_\3\2\2\2ab\3\2\2\2bd\3\2\2\2ca\3\2\2\2de\7\34\2\2e\17\3\2\2"+
+		"\2fg\7\4\2\2gh\5\22\n\2h\21\3\2\2\2ij\7 \2\2jm\7\35\2\2kn\7!\2\2ln\5\34"+
+		"\17\2mk\3\2\2\2ml\3\2\2\2np\3\2\2\2oq\5\24\13\2po\3\2\2\2pq\3\2\2\2qw"+
+		"\3\2\2\2rs\7\33\2\2st\5\22\n\2tu\7\34\2\2uw\3\2\2\2vi\3\2\2\2vr\3\2\2"+
+		"\2w\23\3\2\2\2xy\7\22\2\2y{\5\22\n\2zx\3\2\2\2{|\3\2\2\2|z\3\2\2\2|}\3"+
+		"\2\2\2}\u0085\3\2\2\2~\177\7\23\2\2\177\u0081\5\22\n\2\u0080~\3\2\2\2"+
+		"\u0081\u0082\3\2\2\2\u0082\u0080\3\2\2\2\u0082\u0083\3\2\2\2\u0083\u0085"+
+		"\3\2\2\2\u0084z\3\2\2\2\u0084\u0080\3\2\2\2\u0085\25\3\2\2\2\u0086\u0088"+
+		"\7\r\2\2\u0087\u0089\7!\2\2\u0088\u0087\3\2\2\2\u0088\u0089\3\2\2\2\u0089"+
+		"\u008c\3\2\2\2\u008a\u008b\7\16\2\2\u008b\u008d\7!\2\2\u008c\u008a\3\2"+
+		"\2\2\u008c\u008d\3\2\2\2\u008d\27\3\2\2\2\u008e\u008f\7\b\2\2\u008f\u0090"+
+		"\7\20\2\2\u0090\u0091\7 \2\2\u0091\u0097\5\32\16\2\u0092\u0093\7\30\2"+
+		"\2\u0093\u0094\7 \2\2\u0094\u0096\5\32\16\2\u0095\u0092\3\2\2\2\u0096"+
+		"\u0099\3\2\2\2\u0097\u0095\3\2\2\2\u0097\u0098\3\2\2\2\u0098\31\3\2\2"+
+		"\2\u0099\u0097\3\2\2\2\u009a\u009d\7\5\2\2\u009b\u009d\7\6\2\2\u009c\u009a"+
+		"\3\2\2\2\u009c\u009b\3\2\2\2\u009d\33\3\2\2\2\u009e\u009f\t\2\2\2\u009f"+
+		"\35\3\2\2\2\26\37$&+\62NQTWampv|\u0082\u0084\u0088\u008c\u0097\u009c";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

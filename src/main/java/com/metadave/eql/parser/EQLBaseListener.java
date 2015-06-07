@@ -53,6 +53,30 @@ public class EQLBaseListener implements EQLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterIndex_stmt(EQLParser.Index_stmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIndex_stmt(EQLParser.Index_stmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterGet_stmt(EQLParser.Get_stmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitGet_stmt(EQLParser.Get_stmtContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterQuery_stmt(EQLParser.Query_stmtContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -144,6 +168,18 @@ public class EQLBaseListener implements EQLListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAscdesc(EQLParser.AscdescContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterString_value(EQLParser.String_valueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitString_value(EQLParser.String_valueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

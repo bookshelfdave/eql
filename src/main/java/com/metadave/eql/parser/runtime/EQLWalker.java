@@ -25,6 +25,8 @@ import com.metadave.eql.parser.*;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -58,6 +60,11 @@ public class EQLWalker extends EQLBaseListener {
     }
 
     @Override
+    public void exitStmts(EQLParser.StmtsContext ctx) {
+        super.exitStmts(ctx);
+    }
+
+    @Override
     public void exitConnect_stmt(EQLParser.Connect_stmtContext ctx) {
 
         String clusterName = null;
@@ -76,6 +83,32 @@ public class EQLWalker extends EQLBaseListener {
             TransportClient tc = (TransportClient) runtimeCtx.client;
             tc.addTransportAddress(new InetSocketTransportAddress(hp.getHost(), hp.getPort()));
         }
+
+    }
+
+    @Override
+    public void exitIndex_stmt(EQLParser.Index_stmtContext ctx) {
+
+        // index_stmt        : INDEX idx=ID WITH itype=ID EQUALS content=(STRING | DATA_CONTENT);
+        String idx = ctx.idx.getText();
+        String itype = ctx.itype.getText();
+        String s = (String)getValue(ctx.string_value());
+        IndexResponse response = runtimeCtx.client.prepareIndex(idx, itype).setSource(s).execute().actionGet();
+        System.out.println(response.getId() + " : " + response.isCreated());
+    }
+
+    @Override
+    public void exitGet_stmt(EQLParser.Get_stmtContext ctx) {
+        String idx = ctx.idx.getText();
+        String itype = ctx.itype.getText();
+        String s = (String)getValue(ctx.string_value());
+        GetResponse response = runtimeCtx.client.prepareGet(idx, itype, s).execute().actionGet();
+        if(response.isExists()) {
+            System.out.println(response.getSourceAsString());
+        } else {
+            System.out.println("Document does not exist");
+        }
+
 
     }
 
@@ -260,5 +293,16 @@ public class EQLWalker extends EQLBaseListener {
             fields.add(t.getText());
         }
         setValue(ctx, fields);
+    }
+
+    @Override
+    public void exitString_value(EQLParser.String_valueContext ctx) {
+        if(ctx.SINGLE_STRING() != null) {
+            setValue(ctx, ParseUtils.stripSingleQuotes(ctx.SINGLE_STRING().getText()));
+        } else if(ctx.DOUBLE_STRING() != null) {
+            setValue(ctx, ParseUtils.stripDoubleQuotes(ctx.DOUBLE_STRING().getText()));
+        } else if(ctx.DATA_CONTENT() != null) {
+            setValue(ctx, ParseUtils.getDataContent(ctx.DATA_CONTENT().getText()));
+        }
     }
 }

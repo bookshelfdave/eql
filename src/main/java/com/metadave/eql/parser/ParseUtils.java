@@ -40,6 +40,38 @@ public class ParseUtils {
         }
     }
 
+
+    public static String stripDoubleQuotes(String rawVal) {
+        if (rawVal.length() == 2) {
+            return "";
+        } else if (rawVal.length() == 3) {
+            return rawVal.substring(1, 2);
+        } else {
+            String v = rawVal.substring(1, rawVal.length() - 1);
+            if(v.contains("\\\"")) {
+                v = v.replaceAll("\\\\\"","\"");
+            }
+            return v;
+        }
+    }
+
+    public static String stripSingleQuotes(String rawVal) {
+        if (rawVal.length() == 2) {
+            // ''
+            return "";
+        } else if (rawVal.length() == 3) {
+            // 'x'
+            return rawVal.substring(1, 2);
+        } else {
+            // 'foo\'bar'
+            String v = rawVal.substring(1, rawVal.length() - 1);
+            if(v.contains("\\'")) {
+                v = v.replaceAll("\\\\'","\'");
+            }
+            return v;
+        }
+    }
+
     @Test
     public void testStripQuotes() {
         // TODO: edge cases

@@ -39,6 +39,26 @@ public interface EQLListener extends ParseTreeListener {
 	 */
 	void exitHostport(EQLParser.HostportContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link EQLParser#index_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndex_stmt(EQLParser.Index_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#index_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndex_stmt(EQLParser.Index_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#get_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterGet_stmt(EQLParser.Get_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#get_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitGet_stmt(EQLParser.Get_stmtContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link EQLParser#query_stmt}.
 	 * @param ctx the parse tree
 	 */
@@ -118,4 +138,14 @@ public interface EQLListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAscdesc(EQLParser.AscdescContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#string_value}.
+	 * @param ctx the parse tree
+	 */
+	void enterString_value(EQLParser.String_valueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#string_value}.
+	 * @param ctx the parse tree
+	 */
+	void exitString_value(EQLParser.String_valueContext ctx);
 }
