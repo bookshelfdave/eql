@@ -1,12 +1,12 @@
 connect elasticsearch localhost:9300;
 
-index posts with post = '{"xyz":"this is a test", "foobar":100}';
-index posts with post = '{"xyz":"this is another test", "foobar":200}';
+index blogposts with post = '{"xyz":"this is a test", "foobar":100}';
+index blogposts with post = '{"xyz":"this is another test", "foobar":200}';
 
-get posts with post = "AU3Po0OOZX4PYDrqsDN1";
+get blogposts with post = "AU3Po0OOZX4PYDrqsDN1";
 
-query posts(xyz, foobar);
+query blogposts(xyz, foobar);
 
 // xyz will be analyzed, so it might not return a value
 // match on 100 for this example instead
-query posts(xyz, foobar) filter foobar=100;
+query blogposts(xyz, foobar) filter foobar=100;
