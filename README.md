@@ -46,11 +46,25 @@ query bank (balance, age, account_number)
     balance = 1110
     and (age = 31 or account_number=953)
   return 1;
+  
+  
+index blogposts with post = '{"xyz":"this is a test", "foobar":100}';
+
+index blogposts with post = '{"xyz":"this is another test", "foobar":200}';
+
+// query by exact id, this won't work for you unless you use an ID 
+// returned from an "index" statement above.
+get blogposts with post = "AU3Po0OOZX4PYDrqsDN1";
+
+// xyz will be analyzed, so it might not return a value
+// match on 100 for this example instead
+query blogposts(xyz, foobar) filter foobar=100;  
 ```
 
 ## See it in action
 
 ![image](https://github.com/metadave/eql/blob/master/eql.gif?raw=true)
+![image](https://github.com/metadave/eql/blob/master/eql2.gif?raw=true)
 
 ## Building + Running
 
