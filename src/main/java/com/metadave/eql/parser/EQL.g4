@@ -10,8 +10,16 @@ hostport          : host=ID ':' port=INT;
 index_stmt        : INDEX idx=ID WITH itype=ID EQUALS content=string_value SEMI;
 get_stmt          : GET   idx=ID WITH itype=ID EQUALS content=string_value SEMI;
 
-query_stmt        :  QUERY key=ID field_list?  filter_stmt? return_stmt? sort_stmt? SEMI;
+query_stmt        :  QUERY key=ID field_list?  aggregate_stmt? filter_stmt? return_stmt? sort_stmt? SEMI;
 
+aggregate_stmt    : AGGREGATE aggregate_mappings;
+
+aggregate_mappings : am+=aggregate_mapping (COMMA am+=aggregate_mapping)*;
+aggregate_mapping  : (ID EQUALS funcall);
+
+funcall           : funname=ID LPAREN field=ID RPAREN;
+
+//aggregate min_price from resellers using min_price = min(resellers.price);
 
 field_list        : LPAREN fields+=ID (COMMA fields+=ID)* RPAREN;
 
@@ -38,6 +46,7 @@ string_value: SINGLE_STRING | DOUBLE_STRING | DATA_CONTENT;
 
 INDEX       :    'index';
 SORT        :    'sort';
+AGGREGATE   :    'aggregate';
 CONNECT     :    'connect';
 QUERY       :    'query';
 ALL         :    'all';

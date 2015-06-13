@@ -69,6 +69,46 @@ public interface EQLListener extends ParseTreeListener {
 	 */
 	void exitQuery_stmt(EQLParser.Query_stmtContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link EQLParser#aggregate_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterAggregate_stmt(EQLParser.Aggregate_stmtContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#aggregate_stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitAggregate_stmt(EQLParser.Aggregate_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#aggregate_mappings}.
+	 * @param ctx the parse tree
+	 */
+	void enterAggregate_mappings(EQLParser.Aggregate_mappingsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#aggregate_mappings}.
+	 * @param ctx the parse tree
+	 */
+	void exitAggregate_mappings(EQLParser.Aggregate_mappingsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#aggregate_mapping}.
+	 * @param ctx the parse tree
+	 */
+	void enterAggregate_mapping(EQLParser.Aggregate_mappingContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#aggregate_mapping}.
+	 * @param ctx the parse tree
+	 */
+	void exitAggregate_mapping(EQLParser.Aggregate_mappingContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#funcall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFuncall(EQLParser.FuncallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#funcall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFuncall(EQLParser.FuncallContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link EQLParser#field_list}.
 	 * @param ctx the parse tree
 	 */

@@ -34,6 +34,8 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.metrics.ValuesSourceMetricsAggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 
 import java.util.ArrayList;
@@ -131,6 +133,7 @@ public class EQLWalker extends EQLBaseListener {
         // determine which type of query we have
         QueryBuilder qb = matchAllQuery();
 
+
         if(ctx.filter_stmt() != null) {
             FilterBuilder fb = (FilterBuilder)getValue(ctx.filter_stmt());
             qb = QueryBuilders.filteredQuery(qb, fb);
@@ -138,6 +141,15 @@ public class EQLWalker extends EQLBaseListener {
 
         // SearchResponse response = runtimeCtx.client.prepareSearch(key).setQuery(qb).execute().actionGet();
         SearchRequestBuilder b = runtimeCtx.client.prepareSearch(key).setQuery(qb);
+
+        if(ctx.aggregate_stmt() != null) {
+            List<ValuesSourceMetricsAggregationBuilder> mappings =
+                    (List<ValuesSourceMetricsAggregationBuilder>)getValue(ctx.aggregate_stmt());
+            for(ValuesSourceMetricsAggregationBuilder mapping : mappings) {
+                b.addAggregation(mapping);
+            }
+        }
+
 
         if(ctx.field_list() != null) {
             List<String> fields = (List<String>)getValue(ctx.field_list());
@@ -303,6 +315,55 @@ public class EQLWalker extends EQLBaseListener {
             setValue(ctx, ParseUtils.stripDoubleQuotes(ctx.DOUBLE_STRING().getText()));
         } else if(ctx.DATA_CONTENT() != null) {
             setValue(ctx, ParseUtils.getDataContent(ctx.DATA_CONTENT().getText()));
+        }
+    }
+
+    @Override
+    public void exitAggregate_stmt(EQLParser.Aggregate_stmtContext ctx) {
+        List<ValuesSourceMetricsAggregationBuilder> mappings =
+                (List<ValuesSourceMetricsAggregationBuilder>)getValue(ctx.aggregate_mappings());
+        setValue(ctx, mappings);
+    }
+
+    @Override
+    public void exitAggregate_mappings(EQLParser.Aggregate_mappingsContext ctx) {
+        List<ValuesSourceMetricsAggregationBuilder> mappings = new ArrayList<ValuesSourceMetricsAggregationBuilder>();
+        for(EQLParser.Aggregate_mappingContext m : ctx.am) {
+            mappings.add((ValuesSourceMetricsAggregationBuilder) getValue(m));
+        }
+        setValue(ctx, mappings);
+    }
+
+    @Override
+    public void exitAggregate_mapping(EQLParser.Aggregate_mappingContext ctx) {
+        // TODO I don't need AggMapping
+        AggMapping am = new AggMapping(ctx.ID().getText(), (FunCall)getValue(ctx.funcall()));
+        ValuesSourceMetricsAggregationBuilder b;
+        switch(am.getFc().getFunName()) {
+            case AVG:
+                b = AggregationBuilders.avg(am.getId()); break;
+            case MAX:
+                b = AggregationBuilders.max(am.getId()); break;
+            case MIN:
+                b = AggregationBuilders.min(am.getId()); break;
+            case SUM:
+                b = AggregationBuilders.sum(am.getId()); break;
+            default:
+                throw new RuntimeException("Invalid function");
+        }
+        b.field(am.getFc().getField());
+        setValue(ctx, b);
+    }
+
+    @Override
+    public void exitFuncall(EQLParser.FuncallContext ctx) {
+        try {
+            FunCall fc = new FunCall(
+                        FunCall.ValidFun.valueOf(ctx.funname.getText().toUpperCase()),
+                        ctx.field.getText());
+            setValue(ctx, fc);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid function " + ctx.funname.getText());
         }
     }
 }

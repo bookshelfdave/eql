@@ -47,7 +47,6 @@ query bank (balance, age, account_number)
     and (age = 31 or account_number=953)
   return 1;
   
-  
 index blogposts with post = '{"xyz":"this is a test", "foobar":100}';
 
 index blogposts with post = '{"xyz":"this is another test", "foobar":200}';
@@ -59,6 +58,11 @@ get blogposts with post = "AU3Po0OOZX4PYDrqsDN1";
 // xyz will be analyzed, so it might not return a value
 // match on 100 for this example instead
 query blogposts(xyz, foobar) filter foobar=100;  
+
+// Simple Aggregations
+query bank
+  aggregate min_bal = min(balance), max_bal = max(balance);
+
 ```
 
 ## See it in action

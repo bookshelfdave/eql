@@ -58,6 +58,12 @@ public class EQLParserTest {
         testEvalScript(script);
     }
 
+    @Test
+    public void testAggsEval() throws Throwable {
+        String script = EQLParserTest.loadResource("aggs.test");
+        testEvalScript(script);
+    }
+
     private void testEvalScript(String script) throws Throwable {
         RuntimeContext ctx = new RuntimeContext();
         ANTLRInputStream input = new ANTLRInputStream(script);
@@ -68,6 +74,7 @@ public class EQLParserTest {
         EQLWalker esq = new EQLWalker(ctx);
         parser.addErrorListener(new EQLErrorListener());
         EQLParser.StmtsContext qc = parser.stmts();
+        // TODO: uncomment this when test data is setup
         //walker.walk(esq, qc);
     }
 
