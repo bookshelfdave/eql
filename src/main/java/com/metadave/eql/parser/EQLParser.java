@@ -456,11 +456,11 @@ public class EQLParser extends Parser {
 		public Field_listContext field_list() {
 			return getRuleContext(Field_listContext.class,0);
 		}
-		public Aggregate_stmtContext aggregate_stmt() {
-			return getRuleContext(Aggregate_stmtContext.class,0);
-		}
 		public Filter_stmtContext filter_stmt() {
 			return getRuleContext(Filter_stmtContext.class,0);
+		}
+		public Aggregate_stmtContext aggregate_stmt() {
+			return getRuleContext(Aggregate_stmtContext.class,0);
 		}
 		public Return_stmtContext return_stmt() {
 			return getRuleContext(Return_stmtContext.class,0);
@@ -504,19 +504,19 @@ public class EQLParser extends Parser {
 
 			setState(87);
 			_la = _input.LA(1);
-			if (_la==AGGREGATE) {
+			if (_la==T__1) {
 				{
 				setState(86);
-				aggregate_stmt();
+				filter_stmt();
 				}
 			}
 
 			setState(90);
 			_la = _input.LA(1);
-			if (_la==T__1) {
+			if (_la==AGGREGATE) {
 				{
 				setState(89);
-				filter_stmt();
+				aggregate_stmt();
 				}
 			}
 
@@ -1357,8 +1357,8 @@ public class EQLParser extends Parser {
 		"\2@A\7\3\2\2AB\7\"\2\2B\7\3\2\2\2CD\7\7\2\2DE\7!\2\2EF\7\20\2\2FG\7!\2"+
 		"\2GH\7\36\2\2HI\5$\23\2IJ\7 \2\2J\t\3\2\2\2KL\7\r\2\2LM\7!\2\2MN\7\20"+
 		"\2\2NO\7!\2\2OP\7\36\2\2PQ\5$\23\2QR\7 \2\2R\13\3\2\2\2ST\7\13\2\2TV\7"+
-		"!\2\2UW\5\26\f\2VU\3\2\2\2VW\3\2\2\2WY\3\2\2\2XZ\5\16\b\2YX\3\2\2\2YZ"+
-		"\3\2\2\2Z\\\3\2\2\2[]\5\30\r\2\\[\3\2\2\2\\]\3\2\2\2]_\3\2\2\2^`\5\36"+
+		"!\2\2UW\5\26\f\2VU\3\2\2\2VW\3\2\2\2WY\3\2\2\2XZ\5\30\r\2YX\3\2\2\2YZ"+
+		"\3\2\2\2Z\\\3\2\2\2[]\5\16\b\2\\[\3\2\2\2\\]\3\2\2\2]_\3\2\2\2^`\5\36"+
 		"\20\2_^\3\2\2\2_`\3\2\2\2`b\3\2\2\2ac\5 \21\2ba\3\2\2\2bc\3\2\2\2cd\3"+
 		"\2\2\2de\7 \2\2e\r\3\2\2\2fg\7\t\2\2gh\5\20\t\2h\17\3\2\2\2in\5\22\n\2"+
 		"jk\7\31\2\2km\5\22\n\2lj\3\2\2\2mp\3\2\2\2nl\3\2\2\2no\3\2\2\2o\21\3\2"+

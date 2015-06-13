@@ -63,6 +63,12 @@ query blogposts(xyz, foobar) filter foobar=100;
 query bank
   aggregate min_bal = min(balance), max_bal = max(balance);
 
+// filters AND aggregations
+query bank
+    filter
+        age = 20
+    aggregate
+        foo = min(balance), bar = max(balance);
 ```
 
 ## See it in action
