@@ -99,8 +99,7 @@ mvn clean package
     - if theres any interest in it.
 
 - Can I contribute?
-    - not yet, the code is messy and I need to add tests and stabilize the language.
-
+    - you can submit a github issue for suggestions on how parts of the query should look.
 
 ---
 
