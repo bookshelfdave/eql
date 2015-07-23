@@ -30,6 +30,7 @@ import jline.ANSIBuffer;
 import jline.console.ConsoleReader;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.DiagnosticErrorListener;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.cli.*;
 
@@ -42,7 +43,6 @@ public class EQLConsole {
 
     static String[] keywords = {
             "connect",
-
             "query",
             "from",
             "return",
@@ -89,6 +89,8 @@ public class EQLConsole {
         consoleOnlyCommands.put("clear", clear);
     }
 
+
+
     // TODO: this is a waste... reuse objects!
     private static void processInput(String line, RuntimeContext runtimeCtx) {
         ANTLRInputStream input = new ANTLRInputStream(line);
@@ -97,17 +99,19 @@ public class EQLConsole {
         EQLParser parser = new EQLParser(tokens);
 
         // combine these two into one
-        parser.addErrorListener(new EQLErrorListener());
+        //parser.addErrorListener(new EQLErrorListener());
+        //parser.addErrorListener(new DiagnosticErrorListener());
 
         ParseTreeWalker walker = new ParseTreeWalker();
         EQLWalker esq = new EQLWalker(runtimeCtx);
 
         try {
-            EQLParser.StmtsContext stmts = parser.stmts();
-            walker.walk(esq, stmts);
+            //EQLParser.StmtsContext stmts = parser.stmts();
+            //walker.walk(esq, stmts);
         } catch (Throwable t) {
             // catch parse errors. ANTLR will display a message for me.
             System.out.println(t.getMessage());
+            //parser.notifyErrorListeners("Test");
         }
 
     }

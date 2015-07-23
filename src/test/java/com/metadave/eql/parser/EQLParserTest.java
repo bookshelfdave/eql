@@ -27,67 +27,28 @@ import com.metadave.eql.parser.runtime.RuntimeContext;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Iterator;
 
 public class EQLParserTest {
 
-//    @Test
-//    public void testQueryParsing() {
-//        try {
-//            String script = EQLParserTest.loadResource("query.test");
-//            testScript(script);
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//            Assert.fail();
-//        }
-//    }
-
-    @Test
-    public void testQueryEval() throws Throwable {
-        String script = EQLParserTest.loadResource("query.test");
-        testEvalScript(script);
+    public void testQueries() throws Exception {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        URL url = loader.getResource("");
+        File testdir = new File(url.toURI());
+        String[] suffixes = {"pass","fail"};
+        Iterator<File> testFiles = FileUtils.iterateFiles(testdir, suffixes, false);
+        while(testFiles.hasNext()) {
+            File testFile = testFiles.next();
+            System.out.println(testFile.getName());
+            String content = FileUtils.readFileToString(testFile, "UTF-8");
+            //System.out.println(content);
+        }
     }
-
-
-    @Test
-    public void testIndexEval() throws Throwable {
-        String script = EQLParserTest.loadResource("index.test");
-        testEvalScript(script);
-    }
-
-    @Test
-    public void testAggsEval() throws Throwable {
-        String script = EQLParserTest.loadResource("aggs.test");
-        testEvalScript(script);
-    }
-
-    private void testEvalScript(String script) throws Throwable {
-        RuntimeContext ctx = new RuntimeContext();
-        ANTLRInputStream input = new ANTLRInputStream(script);
-        EQLLexer lexer = new EQLLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        EQLParser parser = new EQLParser(tokens);
-        ParseTreeWalker walker = new ParseTreeWalker();
-        EQLWalker esq = new EQLWalker(ctx);
-        parser.addErrorListener(new EQLErrorListener());
-        EQLParser.StmtsContext qc = parser.stmts();
-        // TODO: uncomment this when test data is setup
-        //walker.walk(esq, qc);
-    }
-
-
-//    private void testScript(String script) throws Throwable {
-//
-//        ANTLRInputStream input = new ANTLRInputStream(script);
-//        EQLLexer lexer = new EQLLexer(input);
-//        CommonTokenStream tokens = new CommonTokenStream(lexer);
-//        EQLParser parser = new EQLParser(tokens);
-//        parser.addErrorListener(new EQLErrorListener());
-//        parser.stmts();
-//    }
 
     public static String loadResource(String name) throws Exception {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();

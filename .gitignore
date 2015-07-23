@@ -3,4 +3,6 @@ bin
 dist
 writer.debug
 .DS_Store
+target
+.idea
 

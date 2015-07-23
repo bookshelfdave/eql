@@ -1,64 +1,95 @@
 grammar EQL;
 
-stmts: connect_stmt? (query_stmt | index_stmt | get_stmt )*;
+// TODO: require connect to be first?
+esql_stmts: (eql_connect_stmt
+             | eql_query_stmt
+             | eql_index_stmt
+             | eql_get_stmt )*;
 
-connect_stmt      :  CONNECT clusterName=ID? hps+=hostport (COMMA hps+=hostport)* SEMI;
+eql_connect_stmt      :  CONNECT
+                            cluster_name=string_value?
+                            hps+=eql_hostport (COMMA hps+=eql_hostport)* ;
 
 // TODO: NOT REALLY A HOSTNAME REGEX!
-hostport          : host=ID ':' port=INT;
+eql_hostport          : host=ID ':' port=INT;
 
-index_stmt        : INDEX idx=ID WITH itype=ID EQUALS content=string_value SEMI;
-get_stmt          : GET   idx=ID WITH itype=ID EQUALS content=string_value SEMI;
+eql_index_stmt        : INDEX
+                            idx=ID
+                        WITH
+                            itype=ID
+                        EQUALS
+                            content=string_value;
 
-query_stmt        :  QUERY key=ID field_list?   filter_stmt? aggregate_stmt? return_stmt? sort_stmt? SEMI;
+eql_get_stmt          : GET
+                            idx=ID
+                        WITH
+                            itype=ID
+                        EQUALS
+                            content=string_value;
 
-aggregate_stmt    : AGGREGATE aggregate_mappings;
+// TODO: establish a reasonable order for each query component
+eql_query_stmt        :  QUERY key=ID
+                            eql_field_list?
+                            eql_filter_stmt?
+                            eql_aggregate_stmt?
+                            eql_return_stmt?
+                            eql_sort_stmt?;
 
-aggregate_mappings : am+=aggregate_mapping (COMMA am+=aggregate_mapping)*;
-aggregate_mapping  : (ID EQUALS funcall);
+eql_aggregate_stmt    : AGGREGATE eql_aggregate_mappings;
 
-funcall           : funname=ID LPAREN field=ID RPAREN;
+eql_aggregate_mappings : am+=eql_aggregate_mapping (COMMA am+=eql_aggregate_mapping)*;
+eql_aggregate_mapping  : (ID EQUALS eql_funcall);
+
+eql_funcall           : funname=ID LPAREN field=ID RPAREN;
 
 //aggregate min_price from resellers using min_price = min(resellers.price);
 
-field_list        : LPAREN fields+=ID (COMMA fields+=ID)* RPAREN;
+eql_field_list        : LPAREN fields+=ID (COMMA fields+=ID)* RPAREN;
 
-filter_stmt       :   'filter' filter_pred;
+eql_filter_stmt       : FILTER eql_filter_pred;
 
-filter_pred       : name=ID '=' (intval=INT | stringval=string_value) filter_rest?
-                    | LPAREN childpred=filter_pred RPAREN;
+eql_filter_pred       : name=ID '=' eql_filter_pred_value eql_filter_rest?
+                        | LPAREN
+                             childpred=eql_filter_pred
+                          RPAREN;
 
 // as far as I can tell, you can't combine ANDs with ORs etc UNLESS
 // you nest the bool filter
-filter_rest :     (AND ands+=filter_pred)+
-                  | (OR  ors+=filter_pred)+;
+eql_filter_rest :     (AND ands+=eql_filter_pred)+
+                  | (OR  ors+=eql_filter_pred)+;
                   //TODO: just use !=? | (NOT filter_pred)*;
 
-// antlr4 doesn't like "return" by itself, use "RETURNKW"
-return_stmt       : RETURNKW size=INT? (FROM lower=INT)?;
+eql_filter_pred_value : (intval=INT | stringval=string_value);
 
-sort_stmt         : SORT ON keys+=ID sorts+=ascdesc (COMMA keys+=ID sorts+=ascdesc)*;
-ascdesc           : asc='asc' | desc='desc';
+
+// antlr4 doesn't like "return" by itself, use "RETURNKW"
+eql_return_stmt       : RETURNKW size=INT? (FROM lower=INT)?;
+
+eql_sort_stmt         : SORT ON
+                            keys+=ID
+                            sorts+=eql_ascdesc (COMMA keys+=ID sorts+=eql_ascdesc)*;
+
+eql_ascdesc           : asc='asc' | desc='desc';
 
 string_value: SINGLE_STRING | DOUBLE_STRING | DATA_CONTENT;
 
 
-
-INDEX       :    'index';
-SORT        :    'sort';
-AGGREGATE   :    'aggregate';
-CONNECT     :    'connect';
-QUERY       :    'query';
-ALL         :    'all';
-GET         :    'get';
-RETURNKW    :    'return';
-FROM        :    'from';
-WITH        :    'with';
-ON          :    'on';
-TO          :    'to';
-AND         :    'and';
-OR          :    'or';
-NOT         :    'not';
+INDEX       :    I N D E X;
+SORT        :    S O R T;
+AGGREGATE   :    A G G R E G A T E;
+CONNECT     :    C O N N E C T;
+QUERY       :    Q U E R Y;
+FILTER      :    F I L T E R;
+ALL         :    A L L;
+GET         :    G E T;
+RETURNKW    :    R E T U R N;
+FROM        :    F R O M;
+WITH        :    W I T H;
+ON          :    O N;
+TO          :    T O;
+AND         :    A N D;
+OR          :    O R;
+NOT         :    N O T;
 AT          :    '@';
 DOLLAR      :    '$';
 SPLAT       :    '*';
@@ -81,6 +112,8 @@ fragment DIGIT  : '0' .. '9';
 FLOAT       :       DIGIT+ DOT DIGIT*
                     | DOT DIGIT+
                        ;
+
+ANY_UNTIL_COLON : .*? ':';
 
 // double quoted string
 DOUBLE_STRING  :  '"' (ESC|.)*? '"';
@@ -122,3 +155,31 @@ fragment Cc:
     '\u0086'..'\u009F' |
     '\u0009'..'\u000D' |
     '\u0085';
+
+// TODO: do we allow case-insensitive keywords?
+fragment A : [aA];
+fragment B : [bB];
+fragment C : [cC];
+fragment D : [dD];
+fragment E : [eE];
+fragment F : [fF];
+fragment G : [gG];
+fragment H : [hH];
+fragment I : [iI];
+fragment J : [jJ];
+fragment K : [kK];
+fragment L : [lL];
+fragment M : [mM];
+fragment N : [nN];
+fragment O : [oO];
+fragment P : [pP];
+fragment Q : [qQ];
+fragment R : [rR];
+fragment S : [sS];
+fragment T : [tT];
+fragment U : [uU];
+fragment V : [vV];
+fragment W : [wW];
+fragment X : [xX];
+fragment Y : [yY];
+fragment Z : [zZ];

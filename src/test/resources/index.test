@@ -1,4 +1,4 @@
-connect elasticsearch localhost:9300;
+connect @elasticsearch localhost:9300;
 
 index blogposts with post = '{"xyz":"this is a test", "foobar":100}';
 index blogposts with post = '{"xyz":"this is another test", "foobar":200}';

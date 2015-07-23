@@ -1,4 +1,4 @@
-connect elasticsearch localhost:9300;
+connect @elasticsearch localhost:9300;
 
 query bank
   aggregate min_bal = min(balance), max_bal = max(balance);

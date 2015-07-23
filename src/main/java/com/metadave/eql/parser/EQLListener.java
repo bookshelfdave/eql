@@ -9,175 +9,185 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface EQLListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#stmts}.
+	 * Enter a parse tree produced by {@link EQLParser#esql_stmts}.
 	 * @param ctx the parse tree
 	 */
-	void enterStmts(EQLParser.StmtsContext ctx);
+	void enterEsql_stmts(EQLParser.Esql_stmtsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#stmts}.
+	 * Exit a parse tree produced by {@link EQLParser#esql_stmts}.
 	 * @param ctx the parse tree
 	 */
-	void exitStmts(EQLParser.StmtsContext ctx);
+	void exitEsql_stmts(EQLParser.Esql_stmtsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#connect_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_connect_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterConnect_stmt(EQLParser.Connect_stmtContext ctx);
+	void enterEql_connect_stmt(EQLParser.Eql_connect_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#connect_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_connect_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitConnect_stmt(EQLParser.Connect_stmtContext ctx);
+	void exitEql_connect_stmt(EQLParser.Eql_connect_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#hostport}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_hostport}.
 	 * @param ctx the parse tree
 	 */
-	void enterHostport(EQLParser.HostportContext ctx);
+	void enterEql_hostport(EQLParser.Eql_hostportContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#hostport}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_hostport}.
 	 * @param ctx the parse tree
 	 */
-	void exitHostport(EQLParser.HostportContext ctx);
+	void exitEql_hostport(EQLParser.Eql_hostportContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#index_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_index_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterIndex_stmt(EQLParser.Index_stmtContext ctx);
+	void enterEql_index_stmt(EQLParser.Eql_index_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#index_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_index_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitIndex_stmt(EQLParser.Index_stmtContext ctx);
+	void exitEql_index_stmt(EQLParser.Eql_index_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#get_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_get_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterGet_stmt(EQLParser.Get_stmtContext ctx);
+	void enterEql_get_stmt(EQLParser.Eql_get_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#get_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_get_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitGet_stmt(EQLParser.Get_stmtContext ctx);
+	void exitEql_get_stmt(EQLParser.Eql_get_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#query_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_query_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterQuery_stmt(EQLParser.Query_stmtContext ctx);
+	void enterEql_query_stmt(EQLParser.Eql_query_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#query_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_query_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitQuery_stmt(EQLParser.Query_stmtContext ctx);
+	void exitEql_query_stmt(EQLParser.Eql_query_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#aggregate_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_aggregate_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterAggregate_stmt(EQLParser.Aggregate_stmtContext ctx);
+	void enterEql_aggregate_stmt(EQLParser.Eql_aggregate_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#aggregate_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_aggregate_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitAggregate_stmt(EQLParser.Aggregate_stmtContext ctx);
+	void exitEql_aggregate_stmt(EQLParser.Eql_aggregate_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#aggregate_mappings}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_aggregate_mappings}.
 	 * @param ctx the parse tree
 	 */
-	void enterAggregate_mappings(EQLParser.Aggregate_mappingsContext ctx);
+	void enterEql_aggregate_mappings(EQLParser.Eql_aggregate_mappingsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#aggregate_mappings}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_aggregate_mappings}.
 	 * @param ctx the parse tree
 	 */
-	void exitAggregate_mappings(EQLParser.Aggregate_mappingsContext ctx);
+	void exitEql_aggregate_mappings(EQLParser.Eql_aggregate_mappingsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#aggregate_mapping}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_aggregate_mapping}.
 	 * @param ctx the parse tree
 	 */
-	void enterAggregate_mapping(EQLParser.Aggregate_mappingContext ctx);
+	void enterEql_aggregate_mapping(EQLParser.Eql_aggregate_mappingContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#aggregate_mapping}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_aggregate_mapping}.
 	 * @param ctx the parse tree
 	 */
-	void exitAggregate_mapping(EQLParser.Aggregate_mappingContext ctx);
+	void exitEql_aggregate_mapping(EQLParser.Eql_aggregate_mappingContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#funcall}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_funcall}.
 	 * @param ctx the parse tree
 	 */
-	void enterFuncall(EQLParser.FuncallContext ctx);
+	void enterEql_funcall(EQLParser.Eql_funcallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#funcall}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_funcall}.
 	 * @param ctx the parse tree
 	 */
-	void exitFuncall(EQLParser.FuncallContext ctx);
+	void exitEql_funcall(EQLParser.Eql_funcallContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#field_list}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_field_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterField_list(EQLParser.Field_listContext ctx);
+	void enterEql_field_list(EQLParser.Eql_field_listContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#field_list}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_field_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitField_list(EQLParser.Field_listContext ctx);
+	void exitEql_field_list(EQLParser.Eql_field_listContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#filter_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_filter_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterFilter_stmt(EQLParser.Filter_stmtContext ctx);
+	void enterEql_filter_stmt(EQLParser.Eql_filter_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#filter_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_filter_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitFilter_stmt(EQLParser.Filter_stmtContext ctx);
+	void exitEql_filter_stmt(EQLParser.Eql_filter_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#filter_pred}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_filter_pred}.
 	 * @param ctx the parse tree
 	 */
-	void enterFilter_pred(EQLParser.Filter_predContext ctx);
+	void enterEql_filter_pred(EQLParser.Eql_filter_predContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#filter_pred}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_filter_pred}.
 	 * @param ctx the parse tree
 	 */
-	void exitFilter_pred(EQLParser.Filter_predContext ctx);
+	void exitEql_filter_pred(EQLParser.Eql_filter_predContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#filter_rest}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_filter_rest}.
 	 * @param ctx the parse tree
 	 */
-	void enterFilter_rest(EQLParser.Filter_restContext ctx);
+	void enterEql_filter_rest(EQLParser.Eql_filter_restContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#filter_rest}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_filter_rest}.
 	 * @param ctx the parse tree
 	 */
-	void exitFilter_rest(EQLParser.Filter_restContext ctx);
+	void exitEql_filter_rest(EQLParser.Eql_filter_restContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#return_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_filter_pred_value}.
 	 * @param ctx the parse tree
 	 */
-	void enterReturn_stmt(EQLParser.Return_stmtContext ctx);
+	void enterEql_filter_pred_value(EQLParser.Eql_filter_pred_valueContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#return_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_filter_pred_value}.
 	 * @param ctx the parse tree
 	 */
-	void exitReturn_stmt(EQLParser.Return_stmtContext ctx);
+	void exitEql_filter_pred_value(EQLParser.Eql_filter_pred_valueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#sort_stmt}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_return_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterSort_stmt(EQLParser.Sort_stmtContext ctx);
+	void enterEql_return_stmt(EQLParser.Eql_return_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#sort_stmt}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_return_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitSort_stmt(EQLParser.Sort_stmtContext ctx);
+	void exitEql_return_stmt(EQLParser.Eql_return_stmtContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link EQLParser#ascdesc}.
+	 * Enter a parse tree produced by {@link EQLParser#eql_sort_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void enterAscdesc(EQLParser.AscdescContext ctx);
+	void enterEql_sort_stmt(EQLParser.Eql_sort_stmtContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link EQLParser#ascdesc}.
+	 * Exit a parse tree produced by {@link EQLParser#eql_sort_stmt}.
 	 * @param ctx the parse tree
 	 */
-	void exitAscdesc(EQLParser.AscdescContext ctx);
+	void exitEql_sort_stmt(EQLParser.Eql_sort_stmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EQLParser#eql_ascdesc}.
+	 * @param ctx the parse tree
+	 */
+	void enterEql_ascdesc(EQLParser.Eql_ascdescContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EQLParser#eql_ascdesc}.
+	 * @param ctx the parse tree
+	 */
+	void exitEql_ascdesc(EQLParser.Eql_ascdescContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link EQLParser#string_value}.
 	 * @param ctx the parse tree

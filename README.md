@@ -69,6 +69,7 @@ query bank
         age = 20
     aggregate
         foo = min(balance), bar = max(balance);
+
 ```
 
 ## See it in action
